@@ -1,0 +1,37 @@
+{% extends 'orcamentos/base.html' %}
+{% block content %}
+<div style="border: 2px solid #333; padding: 20px; max-width: 600px; margin: 0 auto; background: #fff;">
+    <h2 style="text-align: center;">ORÇAMENTO DE VENDA</h2>
+    <hr>
+    <p><strong>Cliente:</strong> {{ orcamento.cliente_nome }}</p>
+    <p><strong>Data:</strong> {{ orcamento.data|date:"d/m/Y H:i" }}</p>
+    
+    <h3>Produto Solicitado</h3>
+    <p><strong>Nome:</strong> {{ orcamento.produto.nome }}</p>
+    <p><strong>Quantidade:</strong> {{ orcamento.quantidade }}</p>
+    <p><strong>Preço Unitário:</strong> R$ {{ orcamento.produto.preco }}</p>
+
+    <h4>Fotos do Produto (Clique para ampliar):</h4>
+    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        {% for img in orcamento.produto.imagens.all %}
+            <a href="{{ img.imagem.url }}" target="_blank">
+                <img src="{{ img.imagem.url }}" width="80" height="80" style="object-fit: cover; border: 1px solid #ccc; border-radius: 4px;">
+            </a>
+        {% empty %}
+            <p>Sem imagens cadastradas.</p>
+        {% endfor %}
+    </div>
+
+    <h2 style="text-align: right; color: green; margin-top: 20px;">
+        TOTAL: R$ {{ orcamento.valor_total }}
+    </h2>
+</div>
+
+<br>
+<div style="text-align: center;">
+    <a href="{% url 'gerar_pdf' orcamento.pk %}" class="btn btn-success" style="padding: 10px 15px; text-decoration: none; font-size: 16px;">
+        📥 Baixar PDF do Orçamento
+    </a>
+    <a href="{% url 'lista_orcamentos' %}" style="margin-left: 10px;">Voltar</a>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Orcamento_{{ orcamento.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 30px; }
+        .box { border: 2px solid #333; padding: 20px; max-width: 600px; margin: 0 auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .total { text-align: right; color: green; margin-top: 20px; font-size: 20px; }
+        .btn-print { background: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 4px; }
+        @media print {
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print" style="text-align: center; margin-bottom: 20px;">
+    <button class="btn-print" onclick="window.print()">🖨️ Clique Aqui para Salvar como PDF</button>
+</div>
+
+<div class="box">
+    <h2 style="text-align: center; margin-top: 0;">ORÇAMENTO DE VENDA</h2>
+    <hr>
+    <p><strong>Cliente:</strong> {{ orcamento.cliente_nome }}</p>
+    <p><strong>Data:</strong> {{ orcamento.data|date:"d/m/Y H:i" }}</p>
+    
+    <h3>Produto Solicitado</h3>
+    <table>
+        <tr>
+            <th>Produto</th>
+            <th>Qtd</th>
+            <th>Preço Unit.</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>{{ orcamento.produto.nome }}</td>
+            <td>{{ orcamento.quantidade }}</td>
+            <td>R$ {{ orcamento.produto.preco }}</td>
+            <td><strong>R$ {{ orcamento.valor_total }}</strong></td>
+        </tr>
+    </table>
+
+    <div class="total">
+        <strong>TOTAL: R$ {{ orcamento.valor_total }}</strong>
+    </div>
+</div>
+
+</body>
+</html>

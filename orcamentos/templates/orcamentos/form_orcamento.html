@@ -1,0 +1,18 @@
+{% extends 'orcamentos/base.html' %}
+{% block content %}
+<h2>Gerar Orçamento</h2>
+<form method="post">
+    {% csrf_token %}
+    <p><label>Nome do Cliente:</label><br><input type="text" name="cliente_nome" required></p>
+    <p><label>Selecione o Produto:</label><br>
+        <select name="produto_id" required>
+            {% for p in produtos %}
+                <option value="{{ p.id }}">{{ p.nome }} - R$ {{ p.preco }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p><label>Quantidade:</label><br><input type="number" name="quantidade" value="1" min="1" required></p>
+    <button type="submit" class="btn btn-success">Gerar Orçamento</button>
+    <a href="{% url 'lista_orcamentos' %}">Voltar</a>
+</form>
+{% endblock %}

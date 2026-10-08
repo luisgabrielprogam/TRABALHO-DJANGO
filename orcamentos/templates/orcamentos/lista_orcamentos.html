@@ -1,0 +1,22 @@
+{% extends 'orcamentos/base.html' %}
+{% block content %}
+<h2>Lista de Orçamentos</h2>
+<a href="{% url 'criar_orcamento' %}" class="btn btn-success">+ Gerar Novo Orçamento</a>
+<table>
+    <tr><th>Cliente</th><th>Produto</th><th>Quantidade</th><th>Total</th><th>Ações</th></tr>
+    {% for o in orcamentos %}
+    <tr>
+        <td>{{ o.cliente_nome }}</td>
+        <td>{{ o.produto.nome }}</td>
+        <td>{{ o.quantidade }}</td>
+        <td>R$ {{ o.valor_total }}</td>
+        <td>
+            <a href="{% url 'detalhe_orcamento' o.pk %}" class="btn">Ver / Gerar PDF</a>
+            <a href="{% url 'deletar_orcamento' o.pk %}" class="btn btn-danger">Excluir</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">Nenhum orçamento cadastrado.</td></tr>
+    {% endfor %}
+</table>
+{% endblock %}

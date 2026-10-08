@@ -1,0 +1,34 @@
+{% extends 'orcamentos/base.html' %}
+{% block content %}
+<h2>{% if produto %}Editar{% else %}Novo{% endif %} Produto</h2>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>
+        <label>Nome do Produto:</label><br>
+        <input type="text" name="nome" value="{{ produto.nome|default:'' }}" required style="width: 300px; padding: 5px;">
+    </p>
+    <p>
+        <label>Preço de Venda (R$):</label><br>
+        <small style="color: #666;">Digite o valor sem pontos (ex: 40000 ou 40000.00)</small><br>
+        <input type="number" step="0.01" min="0" name="preco" value="{{ produto.preco|default:'' }}" required style="width: 300px; padding: 5px;">
+    </p>
+    <p>
+        <label>Imagens do Produto (Pode selecionar várias):</label><br>
+        <input type="file" name="imagens" multiple accept="image/*">
+    </p>
+
+    {% if produto and produto.imagens.all %}
+        <p><strong>Imagens atuais:</strong></p>
+        <div>
+            {% for img in produto.imagens.all %}
+                <img src="{{ img.imagem.url }}" width="60" style="margin-right: 5px; border: 1px solid #ccc;">
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <br><br>
+    <button type="submit" class="btn btn-success">Salvar Produto</button>
+    <a href="{% url 'lista_produtos' %}">Voltar</a>
+</form>
+{% endblock %}
